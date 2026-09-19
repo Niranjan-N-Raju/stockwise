@@ -3,17 +3,33 @@
 import { FormEvent, useEffect, useState } from "react";
 import { InventoryDashboard } from "@/components/inventory-dashboard";
 
+type DatabaseStatus = {
+  connected: boolean;
+  provider: string;
+  database?: string;
+  host?: string;
+};
+
 export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [users, setUsers] = useState<string[]>([]);
+  const [databaseStatus, setDatabaseStatus] = useState<DatabaseStatus | null>(null);
 
   useEffect(() => {
     fetch("/api/users", { cache: "no-store" })
       .then((response) => response.ok ? response.json() : { users: [] })
       .then((data: { users: string[] }) => setUsers(data.users))
       .catch(() => setUsers([]));
+
+    fetch("/api/database-status", { cache: "no-store" })
+      .then(async (response) => {
+        const data: DatabaseStatus = await response.json();
+        return response.ok ? data : { connected: false, provider: "MongoDB" };
+      })
+      .then(setDatabaseStatus)
+      .catch(() => setDatabaseStatus({ connected: false, provider: "MongoDB" }));
   }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -132,6 +148,23 @@ export default function Home() {
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+
+          {databaseStatus && (
+            <div className="mt-6 border border-[#d8ddd5] bg-white p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#748078]">Database</p>
+                <span className={`flex items-center gap-2 text-xs font-semibold ${databaseStatus.connected ? "text-[#27613e]" : "text-[#a63232]"}`}>
+                  <span className={`h-2 w-2 rounded-full ${databaseStatus.connected ? "bg-[#3d8a5d]" : "bg-[#c43d3d]"}`} />
+                  {databaseStatus.connected ? "Connected" : "Unavailable"}
+                </span>
+              </div>
+              <dl className="mt-3 grid gap-2 text-sm">
+                <div className="flex justify-between gap-4"><dt className="text-[#748078]">Provider</dt><dd className="font-medium text-[#26382d]">{databaseStatus.provider}</dd></div>
+                {databaseStatus.database && <div className="flex justify-between gap-4"><dt className="text-[#748078]">Database</dt><dd className="font-mono text-xs text-[#26382d]">{databaseStatus.database}</dd></div>}
+                {databaseStatus.host && <div className="flex justify-between gap-4"><dt className="text-[#748078]">Cluster</dt><dd className="max-w-[15rem] truncate font-mono text-xs text-[#26382d]" title={databaseStatus.host}>{databaseStatus.host}</dd></div>}
+              </dl>
             </div>
           )}
         </div>
