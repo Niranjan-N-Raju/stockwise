@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f7f1;
+  --foreground: #1f292b;
+  --pb-orange: #f47521;
+  --pb-yellow: #ffd44f;
+  --pb-cyan: #00a2c0;
+  --pb-peach: #f7d1b1;
+  --pb-wheat: #f2dea9;
+  --pb-stone: #e8e4d7;
+  --pb-lime: #ecfad5;
+  --pb-aqua: #0dbdca;
 }
 
 @theme inline {
@@ -12,15 +20,28 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+}
+
+@keyframes expiry-alert-blink {
+  0%, 100% {
+    background-color: #ffffff;
+  }
+  50% {
+    background-color: var(--pb-peach);
+  }
+}
+
+.expiry-alert-blink {
+  animation: expiry-alert-blink 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expiry-alert-blink {
+    animation: none;
+    background-color: var(--pb-peach);
+  }
 }
