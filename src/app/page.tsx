@@ -26,7 +26,12 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        setError("Invalid username or password.");
+        const data: { message?: string } = await response.json().catch(() => ({}));
+        setError(
+          response.status === 401
+            ? "Invalid username or password."
+            : data.message ?? "Unable to sign in. Please try again.",
+        );
         return;
       }
 
