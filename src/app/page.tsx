@@ -64,15 +64,24 @@ export default function Home() {
         <p className="text-sm text-white/75">Internal inventory workspace</p>
       </section>
 
-      <section className="flex items-center justify-center px-6 py-12 sm:px-12">
-        <div className="w-full max-w-md">
-          <p className="mb-8 text-sm font-semibold uppercase tracking-[0.16em] text-[var(--pb-orange)] lg:hidden">
-            Inventory Management
-          </p>
-          <h1 className="text-4xl font-semibold text-[#1f292b]">Sign in</h1>
-          <p className="mt-3 text-[#667174]">Enter your credentials to continue.</p>
+      <section className="relative flex items-start justify-center overflow-hidden px-4 pb-8 pt-36 sm:px-8 sm:pt-40 lg:items-center lg:px-12 lg:py-12">
+        <div className="absolute inset-x-0 top-0 h-48 bg-[var(--pb-cyan)] lg:hidden">
+          <div className="absolute inset-x-0 bottom-0 h-1.5 bg-[var(--pb-yellow)]" />
+          <div className="px-5 pt-8 sm:px-8">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/80">Polar Bear</p>
+            <p className="mt-2 text-2xl font-semibold text-white">Inventory Management</p>
+          </div>
+        </div>
 
-          <form onSubmit={handleSubmit} autoComplete="off" className="mt-10 space-y-6">
+        <div className="relative z-10 w-full max-w-md border border-[var(--pb-stone)] bg-white p-6 shadow-[0_18px_50px_rgba(31,41,43,0.14)] sm:p-8 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+          <div className="mb-7 flex items-center gap-2 lg:hidden">
+            <span className="h-1 w-10 bg-[var(--pb-orange)]" />
+            <span className="h-1 w-5 bg-[var(--pb-yellow)]" />
+          </div>
+          <h1 className="text-3xl font-semibold text-[#1f292b] sm:text-4xl">Sign in</h1>
+          <p className="mt-2 text-sm text-[#667174] sm:mt-3 sm:text-base">Enter your credentials to continue.</p>
+
+          <form onSubmit={handleSubmit} autoComplete="off" className="mt-7 space-y-5 sm:mt-10 sm:space-y-6">
             <div>
               <label htmlFor="username" className="mb-2 block text-sm font-semibold text-[#1f292b]">
                 Username
@@ -83,7 +92,7 @@ export default function Home() {
                 type="text"
                 autoComplete="off"
                 required
-                className="h-12 w-full border border-[var(--pb-stone)] bg-white px-4 text-[#1f292b] outline-none transition focus:border-[var(--pb-cyan)] focus:ring-2 focus:ring-[var(--pb-cyan)]/20"
+                className="h-12 w-full border border-[var(--pb-stone)] bg-[#fffefa] px-4 text-base text-[#1f292b] outline-none transition focus:border-[var(--pb-cyan)] focus:bg-white focus:ring-2 focus:ring-[var(--pb-cyan)]/20"
               />
             </div>
 
@@ -97,7 +106,7 @@ export default function Home() {
                 type="password"
                 autoComplete="off"
                 required
-                className="h-12 w-full border border-[var(--pb-stone)] bg-white px-4 text-[#1f292b] outline-none transition focus:border-[var(--pb-cyan)] focus:ring-2 focus:ring-[var(--pb-cyan)]/20"
+                className="h-12 w-full border border-[var(--pb-stone)] bg-[#fffefa] px-4 text-base text-[#1f292b] outline-none transition focus:border-[var(--pb-cyan)] focus:bg-white focus:ring-2 focus:ring-[var(--pb-cyan)]/20"
               />
             </div>
 
@@ -108,7 +117,7 @@ export default function Home() {
             <button
               type="submit"
               disabled={isLoading}
-              className="h-12 w-full bg-[var(--pb-orange)] px-4 font-semibold text-white transition hover:brightness-90 focus:outline-none focus:ring-2 focus:ring-[var(--pb-orange)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+              className="h-12 w-full bg-[var(--pb-orange)] px-4 text-base font-semibold text-white shadow-[0_6px_18px_rgba(244,117,33,0.22)] transition hover:brightness-90 focus:outline-none focus:ring-2 focus:ring-[var(--pb-orange)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isLoading ? "Signing in..." : "Sign in"}
             </button>
