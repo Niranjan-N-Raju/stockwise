@@ -1,12 +1,20 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { InventoryDashboard } from "@/components/inventory-dashboard";
 
 export default function Home() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [users, setUsers] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch("/api/users", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : { users: [] })
+      .then((data: { users: string[] }) => setUsers(data.users))
+      .catch(() => setUsers([]));
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -113,6 +121,19 @@ export default function Home() {
               {isLoading ? "Signing in..." : "Sign in"}
             </button>
           </form>
+
+          {users.length > 0 && (
+            <div className="mt-8 border-t border-[#d8ddd5] pt-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#748078]">Users</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {users.map((username) => (
+                  <span key={username} className="border border-[#d8ddd5] bg-white px-3 py-1.5 text-sm font-medium text-[#405248]">
+                    {username}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </main>
